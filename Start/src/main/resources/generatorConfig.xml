@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<classPathEntry
+		location="/Users/zhuizhumengxiang/.m2/repository/mysql/mysql-connector-java/5.1.30/mysql-connector-java-5.1.30.jar" />
+
+	<!-- 生成dal配置 -->
+	<context id="lassen" targetRuntime="MyBatis3">
+		<property name="suppressAllComments" value="true" />
+		<property name="useActualColumnNames" value="false" />
+
+		<!-- 配置插件 -->
+		<property name="basePath"
+			value="/Users/zhuizhumengxiang/workspace/mytool/distributtransaction/deep-learn-java/start/src/main/java" />
+		<!-- 配置数据库连接 -->
+		<jdbcConnection driverClass="org.gjt.mm.mysql.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/users" userId="root"
+			password="123456" />
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 生成文件位置 -->
+		<javaModelGenerator
+			targetPackage="com.zlx.user.dal.model" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator
+			targetPackage="mapper" targetProject="src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.zlx.user.dal.mapper" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 表 -->
+		<table tableName="device" domainObjectName="DeviceDO">
+			
+
+		</table>
+	</context>
+</generatorConfiguration>

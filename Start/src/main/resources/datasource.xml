@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd   
+	                    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd   
+	                    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd   
+	                    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+		
+		<!-- (1) 数据源 -->
+		<bean id="dataSource"
+			class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+			destroy-method="close">
+			<property name="driverClassName"
+				value="com.mysql.jdbc.Driver" />
+			<property name="url"
+				value="jdbc:mysql://127.0.0.1:3306/users" />
+			<property name="username" value="root" />
+			<property name="password" value="123456" />
+			<property name="maxWait" value="3000" />
+			<property name="maxActive" value="28" />
+			<property name="initialSize" value="2" />
+			<property name="minIdle" value="0" />
+			<property name="timeBetweenEvictionRunsMillis"
+				value="300000" />
+			<property name="testOnBorrow" value="false" />
+			<property name="testWhileIdle" value="true" />
+			<property name="validationQuery" value="select 1 from dual" />
+			<property name="filters" value="stat" />
+		</bean>
+
+		<!-- (2) session工厂 -->
+		<bean id="sqlSessionFactory"
+			class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="mapperLocations"
+				value="classpath*:mapper/*Mapper*.xml" />
+			<property name="dataSource" ref="dataSource" />
+		</bean>
+
+		<!-- (3) 配置扫描器，扫描指定路径的mapper生成数据库操作代理类 -->
+		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+			
+			<property name="basePackage" value="com.zlx.user.dal.mapper" />
+			<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		</bean>
+
+		<!-- (4) 注册各种beanfactory处理器 -->
+		<context:annotation-config />
+
+	</beans>
