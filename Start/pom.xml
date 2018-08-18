@@ -15,7 +15,6 @@
 	<name>Start</name>
 	<url>http://maven.apache.org</url>
 
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<flexmark.version>0.34.0</flexmark.version>

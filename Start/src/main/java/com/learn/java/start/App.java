@@ -87,6 +87,15 @@ public class App {
 
 		return "wait time:" + waitCost + ", process time:" + processtime;
 	}
+	
+	@RequestMapping("/selectStreamHandler")
+	String selectStreamHandler() {
+
+		DeviceDOExample example = new DeviceDOExample();
+
+		deviceBoImpl.selectDataByStreamHandler(example );
+		return "ok";
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);

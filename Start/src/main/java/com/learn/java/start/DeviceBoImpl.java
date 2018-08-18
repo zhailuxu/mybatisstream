@@ -3,16 +3,17 @@ package com.learn.java.start;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+import org.apache.ibatis.session.ResultContext;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisCursorItemReader;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSON;
 import com.zlx.user.dal.mapper.DeviceDOMapper;
 import com.zlx.user.dal.model.DeviceDO;
 import com.zlx.user.dal.model.DeviceDOExample;
@@ -82,6 +83,30 @@ public class DeviceBoImpl {
 
 		return null;
 
+	}
+	
+	
+	public void selectDataByStreamHandler(DeviceDOExample example) {
+		//(1)获取session
+		SqlSession session = sqlSessionFactory.openSession();
+		
+		//(2)转换参数
+	    Map<String, Object> param = new HashMap<String, Object>();
+	    param.put("oredCriteria", example.getOredCriteria());
+		param.put("orderByClause", example.getOrderByClause());
+		
+		//(3)执行查询
+	    session.select(QUERY_ID,
+	            param, new ResultHandler() {
+                    //(4)回调
+	                @Override
+	                public void handleResult(ResultContext resultContext) {
+	                	DeviceDO deviceDo = (DeviceDO) resultContext.getResultObject();
+	                    System.out.println(JSON.toJSONString(deviceDo));
+
+	                }
+
+	            });
 	}
 
 }
